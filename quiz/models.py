@@ -1,71 +1,64 @@
 from django.db import models
 
 
-class Student(models.Model):
+class Lead(models.Model):
     full_name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=20)
     age = models.IntegerField()
-    date_registered = models.DateTimeField(auto_now_add=True)
-    
+    created_at = models.DateTimeField(auto_now_add=True)
+
     class Meta:
-        ordering = ['-date_registered']
+        ordering = ['-created_at']
     
     def __str__(self):
-        return f"{self.full_name} - {self.phone_number}"
+        return self.full_name
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    icon = models.CharField(max_length=100, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = "Categories"
+        ordering = ['name']
+    
+    def __str__(self):
+        return self.name
 
 
 class Question(models.Model):
-    CATEGORY_CHOICES = [
-        ('CS', 'Computer Science Basics'),
-        ('HTML_CSS', 'HTML & CSS'),
-        ('JS', 'JavaScript Basics'),
-        ('PYTHON', 'Python Basics'),
-    ]
-    
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='questions')
     text = models.TextField()
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
-    option_a = models.CharField(max_length=200)
-    option_b = models.CharField(max_length=200)
-    option_c = models.CharField(max_length=200)
-    option_d = models.CharField(max_length=200)
+    option_a = models.CharField(max_length=255)
+    option_b = models.CharField(max_length=255)
+    option_c = models.CharField(max_length=255)
+    option_d = models.CharField(max_length=255)
     correct_option = models.CharField(max_length=1, choices=[
         ('A', 'A'),
         ('B', 'B'),
         ('C', 'C'),
         ('D', 'D'),
     ])
-    
+
     class Meta:
         ordering = ['category', 'id']
     
     def __str__(self):
-        return f"{self.category} - {self.text[:50]}..."
+        return f"{self.category.name}: {self.text[:50]}"
 
 
 class QuizResult(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True, blank=True)
-    student_name = models.CharField(max_length=100)  # Keep for backward compatibility
-    category = models.CharField(max_length=20, choices=Question.CATEGORY_CHOICES, null=True, blank=True)
-    score = models.IntegerField()
-    total_questions = models.IntegerField(default=20)
-    date_created = models.DateTimeField(auto_now_add=True)
-    
-    # Store subject-wise scores for feedback
-    cs_score = models.IntegerField(default=0)
-    html_css_score = models.IntegerField(default=0)
-    js_score = models.IntegerField(default=0)
-    python_score = models.IntegerField(default=0)
-    
+    lead = models.ForeignKey(Lead, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    score = models.FloatField()
+    correct_answers = models.IntegerField()
+    total_questions = models.IntegerField()
+    result_data = models.JSONField(default=dict)
+    date_taken = models.DateTimeField(auto_now_add=True)
+
     class Meta:
-        ordering = ['-date_created']
+        ordering = ['-date_taken']
     
     def __str__(self):
-        return f"{self.student_name} - {self.score}%"
-    
-    @property
-    def percentage(self):
-        """Calculate percentage score"""
-        if self.total_questions == 0:
-            return 0
-        return round((self.score / self.total_questions) * 100, 1)
-
+        return f"{self.lead.full_name} - {self.category.name} ({self.score}%)"

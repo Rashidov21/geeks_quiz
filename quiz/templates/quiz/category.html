@@ -1,42 +1,26 @@
 {% extends 'quiz/base.html' %}
 
 {% block content %}
-<div class="category-container">
-    <div class="category-card">
-        <div class="category-header">
-            <h2>Test kategoriyasini tanlang</h2>
-            <p class="category-subtitle">Quyidagi kategoriyalardan birini tanlab, testni boshlang</p>
+<div class="flex justify-center items-center min-h-[60vh] py-8">
+    <div class="bg-white rounded-xl shadow-lg p-8 max-w-4xl w-full">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-primary mb-2">Test turini tanlang</h2>
+            <p class="text-lg text-gray-600">Quyidagi kategoriyalardan birini tanlab, testni boshlang</p>
         </div>
 
-        <form method="POST" action="{% url 'start_quiz' %}" class="category-form">
-            {% csrf_token %}
-            <div class="category-grid">
-                <button type="submit" name="category" value="CS" class="category-btn">
-                    <div class="category-icon">💻</div>
-                    <div class="category-name">Computer Science</div>
-                    <div class="category-desc">Asosiy kompyuter bilimlari</div>
-                </button>
-
-                <button type="submit" name="category" value="HTML_CSS" class="category-btn">
-                    <div class="category-icon">🎨</div>
-                    <div class="category-name">HTML & CSS</div>
-                    <div class="category-desc">Veb-dizayn asoslari</div>
-                </button>
-
-                <button type="submit" name="category" value="JS" class="category-btn">
-                    <div class="category-icon">⚡</div>
-                    <div class="category-name">JavaScript</div>
-                    <div class="category-desc">JavaScript dasturlash asoslari</div>
-                </button>
-
-                <button type="submit" name="category" value="PYTHON" class="category-btn">
-                    <div class="category-icon">🐍</div>
-                    <div class="category-name">Python</div>
-                    <div class="category-desc">Python dasturlash asoslari</div>
-                </button>
-            </div>
-        </form>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+            {% for category in categories %}
+            <a href="{% url 'quiz' category.id %}" class="bg-white border-2 border-gray-200 rounded-xl p-6 text-center no-underline transition-all duration-300 hover:border-primary hover:bg-gray-50 transform hover:-translate-y-1 shadow-md hover:shadow-lg">
+                <div class="text-4xl mb-4">{{category.icon}}</div>
+                <div class="text-xl font-bold text-primary mb-2">{{ category.name }}</div>
+                {% if category.description %}
+                <div class="text-sm text-gray-600">{{ category.description }}</div>
+                {% endif %}
+            </a>
+            {% empty %}
+            <p class="col-span-full text-center py-8 text-gray-600">Hozircha kategoriyalar mavjud emas.</p>
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock %}
-

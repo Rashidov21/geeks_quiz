@@ -1,30 +1,88 @@
 {% extends 'quiz/base.html' %}
 
 {% block content %}
-<div class="result-container">
-    <div class="result-card">
-        <div class="result-header">
-            <h2>Test natijalari</h2>
-            <p class="student-name">{{ student_name }}</p>
-            <p class="result-category-name">{{ category }}</p>
-        </div>
-
-        <div class="score-display">
-            <div class="score-circle">
-                <div class="score-value">{{ percentage }}%</div>
-                <div class="score-detail">{{ score }} / {{ total_questions }}</div>
+<div class="flex justify-center items-center min-h-[60vh] py-8">
+    <div class="bg-white rounded-xl shadow-lg p-8 max-w-4xl w-full">
+        <div class="result-header flex flex-col md:flex-row justify-between items-center mb-8 gap-6">
+            <div class="result-info text-center md:text-left">
+                <h2 class="text-3xl font-bold text-primary mb-2">Test natijalari</h2>
+                <p class="text-xl text-gray-800 font-semibold mt-2">{{ lead.full_name }}</p>
+                <p class="text-lg text-gray-600 mt-1">{{ category.name }}</p>
+            </div>
+            <div class="score-display">
+                <div class="w-40 h-40 bg-primary text-white rounded-full flex flex-col items-center justify-center shadow-lg">
+                    <div class="text-4xl font-bold">{{ quiz_result.score }}%</div>
+                    <div class="text-sm opacity-90 mt-1">{{ quiz_result.correct_answers }} / {{ quiz_result.total_questions }}</div>
+                </div>
             </div>
         </div>
 
-        <div class="feedback-section">
-            <div class="feedback-message {% if percentage >= 80 %}feedback-success{% else %}feedback-info{% endif %}">
-                {{ feedback_message }}
+        <div class="questions-review mt-8">
+            <h3 class="text-2xl font-bold text-primary mb-6">Savollar bo'yicha natijalar</h3>
+            
+            {% for item in questions_data %}
+            <div class="question-review-item bg-white rounded-lg p-6 mb-6 border-2 {% if item.is_correct %}border-l-4 border-l-green-500 border-gray-200{% else %}border-l-4 border-l-red-500 border-gray-200{% endif %}">
+                <div class="question-review-header flex justify-between items-center mb-4">
+                    <span class="question-review-number font-semibold text-primary">Savol {{ forloop.counter }}</span>
+                    <span class="question-review-status font-semibold {% if item.is_correct %}text-green-600{% else %}text-red-600{% endif %}">
+                        {% if item.is_correct %}
+                            ✅ To'g'ri
+                        {% else %}
+                            ❌ Noto'g'ri
+                        {% endif %}
+                    </span>
+                </div>
+                
+                <div class="question-review-text mb-4">
+                    <p class="text-lg text-gray-800">{{ item.question_text }}</p>
+                </div>
+                
+                <div class="question-review-answers mb-4 p-4 bg-gray-50 rounded-lg">
+                    <div class="answer-item flex justify-between items-center mb-2">
+                        <span class="answer-label font-semibold text-gray-600">Sizning javobingiz:</span>
+                        <span class="answer-value font-bold px-3 py-1 rounded {% if item.is_correct %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                            {{ item.user_answer|default:"Javob berilmagan" }}
+                        </span>
+                    </div>
+                    {% if not item.is_correct %}
+                    <div class="answer-item flex justify-between items-center">
+                        <span class="answer-label font-semibold text-gray-600">To'g'ri javob:</span>
+                        <span class="answer-value font-bold px-3 py-1 rounded bg-green-100 text-green-800">{{ item.correct_option }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="question-review-options mt-4">
+                    <div class="space-y-2">
+                        <div class="option-review flex items-center p-3 rounded-lg border-2 {% if item.user_answer == 'A' %}border-primary bg-blue-50{% elif item.correct_option == 'A' %}border-green-500 bg-green-50{% else %}border-gray-200 bg-white{% endif %}">
+                            <span class="flex items-center justify-center w-8 h-8 bg-primary text-white rounded-full font-bold mr-3 flex-shrink-0">A</span>
+                            <span class="text-gray-800">{{ item.option_a }}</span>
+                        </div>
+                        <div class="option-review flex items-center p-3 rounded-lg border-2 {% if item.user_answer == 'B' %}border-primary bg-blue-50{% elif item.correct_option == 'B' %}border-green-500 bg-green-50{% else %}border-gray-200 bg-white{% endif %}">
+                            <span class="flex items-center justify-center w-8 h-8 bg-primary text-white rounded-full font-bold mr-3 flex-shrink-0">B</span>
+                            <span class="text-gray-800">{{ item.option_b }}</span>
+                        </div>
+                        <div class="option-review flex items-center p-3 rounded-lg border-2 {% if item.user_answer == 'C' %}border-primary bg-blue-50{% elif item.correct_option == 'C' %}border-green-500 bg-green-50{% else %}border-gray-200 bg-white{% endif %}">
+                            <span class="flex items-center justify-center w-8 h-8 bg-primary text-white rounded-full font-bold mr-3 flex-shrink-0">C</span>
+                            <span class="text-gray-800">{{ item.option_c }}</span>
+                        </div>
+                        <div class="option-review flex items-center p-3 rounded-lg border-2 {% if item.user_answer == 'D' %}border-primary bg-blue-50{% elif item.correct_option == 'D' %}border-green-500 bg-green-50{% else %}border-gray-200 bg-white{% endif %}">
+                            <span class="flex items-center justify-center w-8 h-8 bg-primary text-white rounded-full font-bold mr-3 flex-shrink-0">D</span>
+                            <span class="text-gray-800">{{ item.option_d }}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
+            {% endfor %}
         </div>
 
-        <div class="result-actions">
-            <a href="{% url 'category_selection' %}" class="btn btn-primary">Yana test ishlash</a>
-            <a href="{% url 'home' %}" class="btn btn-secondary">Bosh sahifaga qaytish</a>
+        <div class="result-actions flex gap-4 justify-center flex-wrap mt-8">
+            <a href="{% url 'categories' %}" class="bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-800 transition duration-300 transform hover:-translate-y-0.5 shadow-lg">
+                Yana test ishlash
+            </a>
+            <a href="{% url 'home' %}" class="bg-white text-primary border-2 border-primary py-3 px-6 rounded-lg font-semibold hover:bg-gray-50 transition duration-300 transform hover:-translate-y-0.5">
+                Bosh sahifaga qaytish
+            </a>
         </div>
     </div>
 </div>

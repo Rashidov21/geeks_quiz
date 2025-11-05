@@ -1,55 +1,56 @@
 {% extends 'quiz/base.html' %}
 
 {% block content %}
-<div class="register-container">
-    <div class="register-card">
-        <div class="register-header">
-            <h2>Geeks Andijan — Kirish sinoviga ro'yxatdan o'ting</h2>
+<div class="flex justify-center items-center min-h-[60vh]">
+    <div class="bg-white rounded-xl shadow-lg p-8 max-w-md w-full">
+        <div class="text-center mb-6">
+            <h2 class="text-2xl font-bold text-primary mb-2">Geeks Andijan — Kirish sinoviga ro'yxatdan o'ting</h2>
         </div>
 
-        <form method="POST" class="register-form">
+        <form method="POST" class="mt-6">
             {% csrf_token %}
             
             {% if form.errors %}
-                <div class="form-errors">
+                <div class="mb-6">
                     {% for field in form %}
                         {% for error in field.errors %}
-                            <div class="alert alert-error">{{ error }}</div>
+                            <div class="bg-red-100 text-red-800 border border-red-300 p-3 rounded-lg mb-2">{{ error }}</div>
                         {% endfor %}
                     {% endfor %}
                     {% for error in form.non_field_errors %}
-                        <div class="alert alert-error">{{ error }}</div>
+                        <div class="bg-red-100 text-red-800 border border-red-300 p-3 rounded-lg mb-2">{{ error }}</div>
                     {% endfor %}
                 </div>
             {% endif %}
 
-            <div class="form-group">
-                <label for="{{ form.full_name.id_for_label }}">{{ form.full_name.label }}</label>
+            <div class="mb-5">
+                <label for="{{ form.full_name.id_for_label }}" class="block mb-2 font-semibold text-gray-700">{{ form.full_name.label }}</label>
                 {{ form.full_name }}
                 {% if form.full_name.help_text %}
-                    <small class="form-help">{{ form.full_name.help_text }}</small>
+                    <small class="block mt-1 text-sm text-gray-500">{{ form.full_name.help_text }}</small>
                 {% endif %}
             </div>
 
-            <div class="form-group">
-                <label for="{{ form.phone_number.id_for_label }}">{{ form.phone_number.label }}</label>
+            <div class="mb-5">
+                <label for="{{ form.phone_number.id_for_label }}" class="block mb-2 font-semibold text-gray-700">{{ form.phone_number.label }}</label>
                 {{ form.phone_number }}
                 {% if form.phone_number.help_text %}
-                    <small class="form-help">{{ form.phone_number.help_text }}</small>
+                    <small class="block mt-1 text-sm text-gray-500">{{ form.phone_number.help_text }}</small>
                 {% endif %}
             </div>
 
-            <div class="form-group">
-                <label for="{{ form.age.id_for_label }}">{{ form.age.label }}</label>
+            <div class="mb-6">
+                <label for="{{ form.age.id_for_label }}" class="block mb-2 font-semibold text-gray-700">{{ form.age.label }}</label>
                 {{ form.age }}
                 {% if form.age.help_text %}
-                    <small class="form-help">{{ form.age.help_text }}</small>
+                    <small class="block mt-1 text-sm text-gray-500">{{ form.age.help_text }}</small>
                 {% endif %}
             </div>
 
-            <button type="submit" class="btn btn-primary btn-block">Ro'yxatdan o'tish</button>
+            <button type="submit" class="w-full bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-800 transition duration-300 transform hover:-translate-y-0.5 shadow-lg">
+                Ro'yxatdan o'tish
+            </button>
         </form>
     </div>
 </div>
 {% endblock %}
-
