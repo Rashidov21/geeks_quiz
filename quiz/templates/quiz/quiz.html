@@ -1,0 +1,105 @@
+{% extends 'quiz/base.html' %}
+{% load quiz_filters %}
+
+{% block content %}
+<div class="quiz-container">
+    <div class="progress-bar-container">
+        <div class="progress-info">
+            <span>Question {{ question_num }} of {{ total_questions }}</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: {% widthratio question_num total_questions 100 %}%"></div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="question-header">
+            <span class="category-badge">{{ question.get_category_display }}</span>
+        </div>
+
+        <div class="question-text">
+            <h2>{{ question.text }}</h2>
+        </div>
+
+        <form method="POST" action="{% url 'save_answer' question_num %}" id="quiz-form">
+            {% csrf_token %}
+            <div class="options-container">
+                <label class="option-label {% if selected_answer == 'A' %}selected{% endif %}">
+                    <input 
+                        type="radio" 
+                        name="answer" 
+                        value="A" 
+                        {% if selected_answer == 'A' %}checked{% endif %}
+                        required
+                    >
+                    <span class="option-letter">A</span>
+                    <span class="option-text">{{ question.option_a }}</span>
+                </label>
+
+                <label class="option-label {% if selected_answer == 'B' %}selected{% endif %}">
+                    <input 
+                        type="radio" 
+                        name="answer" 
+                        value="B" 
+                        {% if selected_answer == 'B' %}checked{% endif %}
+                        required
+                    >
+                    <span class="option-letter">B</span>
+                    <span class="option-text">{{ question.option_b }}</span>
+                </label>
+
+                <label class="option-label {% if selected_answer == 'C' %}selected{% endif %}">
+                    <input 
+                        type="radio" 
+                        name="answer" 
+                        value="C" 
+                        {% if selected_answer == 'C' %}checked{% endif %}
+                        required
+                    >
+                    <span class="option-letter">C</span>
+                    <span class="option-text">{{ question.option_c }}</span>
+                </label>
+
+                <label class="option-label {% if selected_answer == 'D' %}selected{% endif %}">
+                    <input 
+                        type="radio" 
+                        name="answer" 
+                        value="D" 
+                        {% if selected_answer == 'D' %}checked{% endif %}
+                        required
+                    >
+                    <span class="option-letter">D</span>
+                    <span class="option-text">{{ question.option_d }}</span>
+                </label>
+            </div>
+
+            <div class="quiz-actions">
+                {% if question_num > 1 %}
+                <a href="{% url 'quiz_question' question_num|sub:1 %}" class="btn btn-secondary">Previous</a>
+                {% endif %}
+                <button type="submit" class="btn btn-primary">
+                    {% if question_num == total_questions %}
+                        Submit Quiz
+                    {% else %}
+                        Next
+                    {% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Auto-submit on option select (optional enhancement)
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Optional: auto-advance on selection
+            // Uncomment the line below if you want auto-advance
+            // document.getElementById('quiz-form').submit();
+        });
+    });
+</script>
+{% endblock %}
+

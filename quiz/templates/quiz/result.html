@@ -1,0 +1,73 @@
+{% extends 'quiz/base.html' %}
+{% load quiz_filters %}
+
+{% block content %}
+<div class="result-container">
+    <div class="result-card">
+        <div class="result-header">
+            <h2>Quiz Results</h2>
+            <p class="student-name">Congratulations, {{ student_name }}!</p>
+        </div>
+
+        <div class="score-display">
+            <div class="score-circle">
+                <div class="score-value">{{ percentage }}%</div>
+                <div class="score-detail">{{ score }} / {{ total_questions }}</div>
+            </div>
+        </div>
+
+        <div class="subject-breakdown">
+            <h3>Subject-wise Performance</h3>
+            <div class="subject-grid">
+                <div class="subject-item">
+                    <div class="subject-name">Computer Science</div>
+                    <div class="subject-score">{{ category_scores.CS.correct }} / {{ category_scores.CS.total }}</div>
+                    <div class="subject-bar">
+                        <div class="subject-bar-fill" style="width: {{ category_scores.CS.percentage }}%"></div>
+                    </div>
+                </div>
+
+                <div class="subject-item">
+                    <div class="subject-name">HTML & CSS</div>
+                    <div class="subject-score">{{ category_scores.HTML_CSS.correct }} / {{ category_scores.HTML_CSS.total }}</div>
+                    <div class="subject-bar">
+                        <div class="subject-bar-fill" style="width: {{ category_scores.HTML_CSS.percentage }}%"></div>
+                    </div>
+                </div>
+
+                <div class="subject-item">
+                    <div class="subject-name">JavaScript</div>
+                    <div class="subject-score">{{ category_scores.JS.correct }} / {{ category_scores.JS.total }}</div>
+                    <div class="subject-bar">
+                        <div class="subject-bar-fill" style="width: {{ category_scores.JS.percentage }}%"></div>
+                    </div>
+                </div>
+
+                <div class="subject-item">
+                    <div class="subject-name">Python</div>
+                    <div class="subject-score">{{ category_scores.PYTHON.correct }} / {{ category_scores.PYTHON.total }}</div>
+                    <div class="subject-bar">
+                        <div class="subject-bar-fill" style="width: {{ category_scores.PYTHON.percentage }}%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if feedback %}
+        <div class="feedback-section">
+            <h3>Feedback</h3>
+            <ul class="feedback-list">
+                {% for item in feedback %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <div class="result-actions">
+            <a href="{% url 'home' %}" class="btn btn-primary">Take Quiz Again</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

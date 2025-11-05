@@ -1,0 +1,42 @@
+{% extends 'quiz/base.html' %}
+
+{% block content %}
+<div class="home-container">
+    <div class="welcome-card">
+        <div class="logo-section">
+            <h2>Welcome to Geeks Andijan</h2>
+            <p class="mission-text">
+                Test your knowledge before enrolling in our Fullstack Python course!
+            </p>
+        </div>
+
+        <div class="quiz-info">
+            <h3>Quiz Information</h3>
+            <ul>
+                <li><strong>Total Questions:</strong> 20 questions</li>
+                <li><strong>Categories:</strong> Computer Science Basics, HTML & CSS, JavaScript Basics, Python Basics</li>
+                <li><strong>Time Limit:</strong> 20 minutes (recommended)</li>
+                <li><strong>Format:</strong> Multiple choice (4 options per question)</li>
+            </ul>
+        </div>
+
+        <form method="POST" action="{% url 'start_quiz' %}" class="start-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="student_name">Enter Your Name:</label>
+                <input 
+                    type="text" 
+                    id="student_name" 
+                    name="student_name" 
+                    placeholder="Your name here..." 
+                    required 
+                    autocomplete="off"
+                    class="name-input"
+                >
+            </div>
+            <button type="submit" class="btn btn-primary">Start Quiz</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
