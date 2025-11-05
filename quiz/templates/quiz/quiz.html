@@ -11,31 +11,31 @@
         {% csrf_token %}
         {% for question in questions %}
         <div class="bg-white rounded-xl shadow-md p-6 mb-6">
-            <div class="text-sm font-semibold text-primary mb-2">Savol {{ forloop.counter }}</div>
+            <div class="text-sm font-semibold text-primary mb-2">{{ forloop.counter }}-savol</div>
             <div class="mb-4">
-                <h3 class="text-xl text-gray-800 leading-relaxed">{{ question.text }}</h3>
+                <h3 class="text-xl text-gray-800 font-bold leading-relaxed">{{ question.text }}</h3>
             </div>
             
             <div class="space-y-3">
-                <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50">
+                <label class="flex items-center p-2 border-2 border-gray-200 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50">
                     <input type="radio" name="question_{{ question.id }}" value="A" required class="mr-4 w-5 h-5 cursor-pointer">
                     <span class="flex items-center justify-center w-8 h-8 bg-primary text-white rounded-full font-bold mr-3 flex-shrink-0">A</span>
                     <span class="text-gray-800 flex-1">{{ question.option_a }}</span>
                 </label>
 
-                <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50">
+                <label class="flex items-center p-2 border-2 border-gray-200 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50">
                     <input type="radio" name="question_{{ question.id }}" value="B" required class="mr-4 w-5 h-5 cursor-pointer">
                     <span class="flex items-center justify-center w-8 h-8 bg-primary text-white rounded-full font-bold mr-3 flex-shrink-0">B</span>
                     <span class="text-gray-800 flex-1">{{ question.option_b }}</span>
                 </label>
 
-                <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50">
+                <label class="flex items-center p-2 border-2 border-gray-200 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50">
                     <input type="radio" name="question_{{ question.id }}" value="C" required class="mr-4 w-5 h-5 cursor-pointer">
                     <span class="flex items-center justify-center w-8 h-8 bg-primary text-white rounded-full font-bold mr-3 flex-shrink-0">C</span>
                     <span class="text-gray-800 flex-1">{{ question.option_c }}</span>
                 </label>
 
-                <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50">
+                <label class="flex items-center p-2 border-2 border-gray-200 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50">
                     <input type="radio" name="question_{{ question.id }}" value="D" required class="mr-4 w-5 h-5 cursor-pointer">
                     <span class="flex items-center justify-center w-8 h-8 bg-primary text-white rounded-full font-bold mr-3 flex-shrink-0">D</span>
                     <span class="text-gray-800 flex-1">{{ question.option_d }}</span>

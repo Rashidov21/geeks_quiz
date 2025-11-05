@@ -1,8 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'logo.png' %}" type="image/x-icon">
     <title>{% block title %}Geeks Andijan — Online kirish testi{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -21,8 +23,9 @@
 <body class="bg-gray-50 min-h-screen flex flex-col">
     <header class="bg-primary text-secondary shadow-md">
         <div class="container mx-auto px-4 py-6">
-            <div class="logo">
-                <h1 class="text-2xl font-bold">Geeks Andijan — Online Test</h1>
+            <div class="logo flex items-center gap-2">
+                <img src="{% static 'logo.png' %}" alt="Geeks Andijan" class="w-10">
+                <h2 class="text-1xl font-bold">Geeks Andijan </h1>
             </div>
         </div>
     </header>
