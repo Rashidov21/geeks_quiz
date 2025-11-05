@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Question, QuizResult
+from .models import Question, QuizResult, Student
 
 # Customize admin site header
 admin.site.site_header = "Geeks Andijan Quiz Admin"
@@ -22,16 +22,24 @@ class QuestionAdmin(admin.ModelAdmin):
     )
 
 
+@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ['full_name', 'phone_number', 'age', 'date_registered']
+    list_filter = ['date_registered']
+    search_fields = ['full_name', 'phone_number']
+    readonly_fields = ['date_registered']
+
+
 @admin.register(QuizResult)
 class QuizResultAdmin(admin.ModelAdmin):
-    list_display = ['student_name', 'score', 'total_questions', 'percentage', 'date_created']
-    list_filter = ['date_created']
+    list_display = ['student_name', 'category', 'score', 'total_questions', 'percentage', 'date_created']
+    list_filter = ['date_created', 'category']
     search_fields = ['student_name']
     readonly_fields = ['date_created', 'percentage']
     
     fieldsets = (
         ('Student Information', {
-            'fields': ('student_name', 'date_created')
+            'fields': ('student', 'student_name', 'category', 'date_created')
         }),
         ('Score Details', {
             'fields': ('score', 'total_questions', 'percentage')

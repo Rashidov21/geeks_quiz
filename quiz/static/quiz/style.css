@@ -6,17 +6,17 @@
 }
 
 :root {
-    --primary-color: #2563eb;
-    --primary-dark: #1e40af;
-    --secondary-color: #64748b;
+    --primary-color: #1E1E1E;
+    --primary-dark: #0a0a0a;
+    --secondary-color: #ffffff;
     --success-color: #10b981;
     --warning-color: #f59e0b;
     --danger-color: #ef4444;
-    --background: #f8fafc;
+    --background: #f5f5f5;
     --card-background: #ffffff;
-    --text-primary: #1e293b;
-    --text-secondary: #64748b;
-    --border-color: #e2e8f0;
+    --text-primary: #1E1E1E;
+    --text-secondary: #666666;
+    --border-color: #e0e0e0;
     --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
@@ -40,8 +40,8 @@ body {
 
 /* Header */
 header {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-    color: white;
+    background: var(--primary-color);
+    color: var(--secondary-color);
     padding: 1.5rem 0;
     box-shadow: var(--shadow);
 }
@@ -192,7 +192,7 @@ main {
 
 .btn-primary {
     background-color: var(--primary-color);
-    color: white;
+    color: var(--secondary-color);
 }
 
 .btn-primary:hover {
@@ -203,12 +203,17 @@ main {
 
 .btn-secondary {
     background-color: var(--secondary-color);
-    color: white;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
 }
 
 .btn-secondary:hover {
-    background-color: #475569;
+    background-color: var(--background);
     transform: translateY(-2px);
+}
+
+.btn-block {
+    width: 100%;
 }
 
 /* Quiz Page */
@@ -258,7 +263,7 @@ main {
     display: inline-block;
     padding: 0.5rem 1rem;
     background-color: var(--primary-color);
-    color: white;
+    color: var(--secondary-color);
     border-radius: 0.5rem;
     font-size: 0.875rem;
     font-weight: 600;
@@ -311,7 +316,7 @@ main {
     width: 32px;
     height: 32px;
     background-color: var(--primary-color);
-    color: white;
+    color: var(--secondary-color);
     border-radius: 50%;
     font-weight: 700;
     margin-right: 1rem;
@@ -372,8 +377,8 @@ main {
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-    color: white;
+    background: var(--primary-color);
+    color: var(--secondary-color);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -475,8 +480,8 @@ main {
 
 /* Footer */
 footer {
-    background-color: var(--text-primary);
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
     text-align: center;
     padding: 1.5rem 0;
     margin-top: auto;
@@ -549,6 +554,199 @@ footer p {
 
     .mission-text {
         font-size: 1rem;
+    }
+}
+
+/* Registration Page */
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+}
+
+.register-card {
+    background: var(--card-background);
+    border-radius: 1rem;
+    padding: 3rem;
+    box-shadow: var(--shadow-lg);
+    max-width: 500px;
+    width: 100%;
+}
+
+.register-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.register-header h2 {
+    font-size: 1.75rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.register-form {
+    margin-top: 2rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+    font-family: inherit;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.form-errors {
+    margin-bottom: 1.5rem;
+}
+
+.form-help {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Category Selection Page */
+.category-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    padding: 2rem 0;
+}
+
+.category-card {
+    background: var(--card-background);
+    border-radius: 1rem;
+    padding: 3rem;
+    box-shadow: var(--shadow-lg);
+    max-width: 900px;
+    width: 100%;
+}
+
+.category-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.category-header h2 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.category-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.category-btn {
+    background: var(--card-background);
+    border: 2px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 2rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+    font-family: inherit;
+}
+
+.category-btn:hover {
+    border-color: var(--primary-color);
+    background: var(--background);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.category-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.category-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.category-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* Updated Result Page */
+.result-category-name {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+}
+
+.feedback-message {
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 2rem 0;
+}
+
+.feedback-success {
+    background-color: #d1fae5;
+    color: #065f46;
+    border: 2px solid #a7f3d0;
+}
+
+.feedback-info {
+    background-color: #dbeafe;
+    color: #1e40af;
+    border: 2px solid #93c5fd;
+}
+
+.result-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Responsive updates for new pages */
+@media (max-width: 768px) {
+    .register-card,
+    .category-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .category-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .result-actions {
+        flex-direction: column;
+    }
+
+    .result-actions .btn {
+        width: 100%;
     }
 }
 

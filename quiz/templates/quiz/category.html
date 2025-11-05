@@ -1,0 +1,42 @@
+{% extends 'quiz/base.html' %}
+
+{% block content %}
+<div class="category-container">
+    <div class="category-card">
+        <div class="category-header">
+            <h2>Test kategoriyasini tanlang</h2>
+            <p class="category-subtitle">Quyidagi kategoriyalardan birini tanlab, testni boshlang</p>
+        </div>
+
+        <form method="POST" action="{% url 'start_quiz' %}" class="category-form">
+            {% csrf_token %}
+            <div class="category-grid">
+                <button type="submit" name="category" value="CS" class="category-btn">
+                    <div class="category-icon">💻</div>
+                    <div class="category-name">Computer Science</div>
+                    <div class="category-desc">Asosiy kompyuter bilimlari</div>
+                </button>
+
+                <button type="submit" name="category" value="HTML_CSS" class="category-btn">
+                    <div class="category-icon">🎨</div>
+                    <div class="category-name">HTML & CSS</div>
+                    <div class="category-desc">Veb-dizayn asoslari</div>
+                </button>
+
+                <button type="submit" name="category" value="JS" class="category-btn">
+                    <div class="category-icon">⚡</div>
+                    <div class="category-name">JavaScript</div>
+                    <div class="category-desc">JavaScript dasturlash asoslari</div>
+                </button>
+
+                <button type="submit" name="category" value="PYTHON" class="category-btn">
+                    <div class="category-icon">🐍</div>
+                    <div class="category-name">Python</div>
+                    <div class="category-desc">Python dasturlash asoslari</div>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
