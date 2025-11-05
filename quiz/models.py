@@ -1,6 +1,19 @@
 from django.db import models
 
 
+class Student(models.Model):
+    full_name = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=20)
+    age = models.IntegerField()
+    date_registered = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['-date_registered']
+    
+    def __str__(self):
+        return f"{self.full_name} - {self.phone_number}"
+
+
 class Question(models.Model):
     CATEGORY_CHOICES = [
         ('CS', 'Computer Science Basics'),
@@ -30,7 +43,9 @@ class Question(models.Model):
 
 
 class QuizResult(models.Model):
-    student_name = models.CharField(max_length=100)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True, blank=True)
+    student_name = models.CharField(max_length=100)  # Keep for backward compatibility
+    category = models.CharField(max_length=20, choices=Question.CATEGORY_CHOICES, null=True, blank=True)
     score = models.IntegerField()
     total_questions = models.IntegerField(default=20)
     date_created = models.DateTimeField(auto_now_add=True)
