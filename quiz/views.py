@@ -3,7 +3,26 @@ from django.contrib import messages
 from .models import Question, QuizResult, Lead, Category
 from .forms import LeadRegistrationForm
 import json
+from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
+def custom_upload_function(request):
+    """
+    CKEditor orqali yuklangan fayllarni qabul qilib, serverga saqlaydi
+    va JSON shaklda URLni qaytaradi.
+    """
+    upload = request.FILES.get('upload')
+
+    if not upload:
+        return JsonResponse({'error': 'Fayl topilmadi!'}, status=400)
+
+    # Faylni media papkaga saqlaymiz
+    file_path = default_storage.save(os.path.join('uploads', upload.name), upload)
+    file_url = settings.MEDIA_URL + file_path
+
+    return JsonResponse({
+        'url': file_url  # CKEditor shu URL orqali rasmni ko‘rsatadi
+    })
 
 def home_view(request):
     """Home page - redirect to registration"""

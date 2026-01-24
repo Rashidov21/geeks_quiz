@@ -24,7 +24,7 @@
     <header class="bg-primary text-secondary shadow-md">
         <div class="container mx-auto px-4 py-6">
             <div class="logo flex items-center gap-2">
-                <img src="{% static 'logo.png' %}" alt="Geeks Andijan" class="w-10">
+              
                 <h2 class="text-1xl font-bold">Geeks Andijan </h1>
             </div>
         </div>
@@ -41,9 +41,10 @@
                     {% endfor %}
                 </div>
             {% endif %}
-
+            {% autoescape off %} 
             {% block content %}
             {% endblock %}
+            {% endautoescape %} 
         </div>
     </main>
 
