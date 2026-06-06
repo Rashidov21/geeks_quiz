@@ -11,6 +11,7 @@ from django.views.decorators.http import require_POST
 
 from .forms import LeadRegistrationForm
 from .models import Category, Lead, Question, QuizResult
+from .telegram import notify_quiz_result
 
 ALLOWED_UPLOAD_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.gif', '.webp'}
 MAX_UPLOAD_SIZE = 5 * 1024 * 1024
@@ -122,6 +123,8 @@ def quiz_view(request, category_id):
             total_questions=total_questions,
             result_data={'questions': result_data}
         )
+
+        notify_quiz_result(quiz_result)
 
         return redirect('result', result_id=quiz_result.id)
 
