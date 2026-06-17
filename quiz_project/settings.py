@@ -25,7 +25,7 @@ def _env_bool(name, default=False):
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-DEBUG = _env_bool('DEBUG', default=False)
+DEBUG = _env_bool('DEBUG', default=True)
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 if not SECRET_KEY:
@@ -36,8 +36,20 @@ if not SECRET_KEY:
 
 ALLOWED_HOSTS = [
     host.strip()
-    for host in os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+    for host in os.environ.get(
+        'ALLOWED_HOSTS',
+        '127.0.0.1,localhost,test.pyblog.uz,www.test.pyblog.uz',
+    ).split(',')
     if host.strip()
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get(
+        'CSRF_TRUSTED_ORIGINS',
+        'https://test.pyblog.uz,https://www.test.pyblog.uz',
+    ).split(',')
+    if origin.strip()
 ]
 
 
@@ -259,6 +271,27 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Telegram notifications (optional)
 TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN', '')
 TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID', '')
+
+
+# Cache — VPS'da Redis mavjud (127.0.0.1:6379)
+_redis_url = os.environ.get('REDIS_URL', '')
+if _redis_url:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+            'LOCATION': _redis_url,
+        }
+    }
+else:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        }
+    }
+
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_AGE = 86400
+SESSION_SAVE_EVERY_REQUEST = True
 
 
 if not DEBUG:

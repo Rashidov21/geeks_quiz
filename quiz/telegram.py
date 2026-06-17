@@ -4,11 +4,13 @@ import urllib.error
 import urllib.request
 
 from django.conf import settings
+from django.core.cache import cache
 from django.utils.html import strip_tags
 
 logger = logging.getLogger(__name__)
 
 TELEGRAM_MAX_MESSAGE_LENGTH = 4096
+TELEGRAM_RATE_LIMIT_SECONDS = 60
 
 
 def _escape_html(text):
@@ -27,7 +29,6 @@ def send_telegram_message(text):
     chat_id = settings.TELEGRAM_CHAT_ID
 
     if not token or not chat_id:
-        logger.warning('Telegram sozlanmagan — xabar yuborilmadi.')
         return False
 
     if len(text) > TELEGRAM_MAX_MESSAGE_LENGTH:
@@ -50,6 +51,12 @@ def send_telegram_message(text):
     try:
         with urllib.request.urlopen(request, timeout=10) as response:
             return response.status == 200
+    except urllib.error.HTTPError as exc:
+        if exc.code == 429:
+            logger.warning('Telegram rate limit (429) — xabar o\'tkazib yuborildi.')
+        else:
+            logger.error('Telegram xabar yuborishda xato: %s', exc)
+        return False
     except urllib.error.URLError as exc:
         logger.error('Telegram xabar yuborishda xato: %s', exc)
         return False
@@ -89,5 +96,14 @@ def format_quiz_result_message(quiz_result):
 
 
 def notify_quiz_result(quiz_result):
+    """Har bir telefon uchun Telegram xabarini cheklaydi."""
+    phone = quiz_result.lead.phone_number
+    cache_key = f'telegram_sent:{phone}'
+    if cache.get(cache_key):
+        return False
+
     message = format_quiz_result_message(quiz_result)
-    return send_telegram_message(message)
+    sent = send_telegram_message(message)
+    if sent:
+        cache.set(cache_key, True, TELEGRAM_RATE_LIMIT_SECONDS)
+    return sent

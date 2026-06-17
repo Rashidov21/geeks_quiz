@@ -9,7 +9,8 @@
 
         <form method="POST" class="mt-6">
             {% csrf_token %}
-            
+            <div class="hidden" aria-hidden="true">{{ form.website }}</div>
+
             {% if form.errors %}
                 <div class="mb-6">
                     {% for field in form %}
